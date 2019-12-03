@@ -1,0 +1,192 @@
+body{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: hsl(0, 0%, 92%);
+}
+
+.attend_chat{
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.attend_chat h1{
+    color: rgb(54, 76, 144);
+    font-size: 48px;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.Attention{
+    /* position: relative;
+    padding: 0.5em; */
+    margin-bottom: 20px;
+    /* background: #6785e1; */
+    color: white;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.at{
+    display: inline-block;
+    position: relative;
+    width: 70%;
+    background: #6785e1;
+    text-align: center;
+}
+
+.at:before{
+position: absolute;
+content: '';
+top: 100%;
+left: 0;
+border: none;
+border-bottom: solid 15px transparent;
+border-right: solid 20px rgb(103, 238, 193);
+}
+
+.at span{
+    color: rgb(103, 238, 193);
+    font-weight:bolder;
+    font-size: 20px;
+}
+
+
+.name{
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.name p{
+    font-size: 21px;
+    color: #6785e1;
+    font-weight:bolder;
+}
+
+.Status_box{
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.Status_box p{
+    font-size: 21px;
+    color: #6785e1;
+    font-weight:bolder;
+}
+
+#output div{
+position: relative;
+	display: inline-block;
+ 	margin: 1.5em 0 1.5em 15px;
+	padding: 7px 10px;
+	min-width: 120px;
+ 	max-width: 100%;
+ 	color: rgb(54, 76, 144);
+	font-size: 16px;
+	/* background: rgb(229, 242, 248); */
+ 	border: solid 3px rgb(54, 76, 144);
+     box-sizing: border-box;
+}
+#output div::before{
+    content: "";
+	position: absolute;
+	top: 50%;
+	left: -24px;
+ 	margin-top: -12px;
+	border: 12px solid transparent;
+	border-right: 12px solid rgb(54, 76, 144);
+ 	z-index: 2;
+}
+#output div::after{
+    content: "";
+	position: absolute;
+	top: 50%;
+	left: -30px;
+ 	margin-top: -14px;
+	border: 14px solid transparent;
+	border-right: 14px solid rgb(54, 76, 144);
+ 	z-index: 1;
+}
+
+#output div p{
+    margin: 0;
+	padding: 0;
+}
+
+button{
+    /* display: inline-block; */
+    position: relative;
+    padding: 0.5em 1.4em;
+    text-decoration: none;
+    background: #668ad8;/*ボタン色*/
+    color: #FFF;
+    border-bottom: solid 5px #36528c;/*ボタン色より暗めに*/
+    border-right: solid 5px #5375bd;/*ボタン色より暗めに*/
+
+    margin: 0 0 0 auto;
+}
+
+button::before{
+    content: " ";
+    position: absolute;
+    bottom: -5px;
+    left: -1px;
+    width: 0;
+    height: 0;
+    border-width: 0 6px 6px 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: #FFF;
+}
+
+button::after{
+    content: " ";
+    position: absolute;
+    top: -1px;
+    right: -5px;
+    width: 0;
+    height: 0;
+    border-width: 0px 6px 6px 0px;
+    border-style: solid;
+    border-color: #FFF;
+    border-bottom-color: transparent;
+}
+
+button:active{
+    border:none;
+    -ms-transform: translate(6px,6px);
+    -webkit-transform: translate(6px,6px);
+    transform: translate(6px,6px);
+}
+
+button:active::after,button:active::before{
+    content: none;/*ボタンを押すと線が消える*/
+}
+
+
+
+.member h2{
+    margin-top: 34px;
+    font-size: 23px;
+    color: #6785e1;
+    font-weight:bolder;
+} 
+
+.red{
+    color: rgb(230, 76, 76);
+    font-weight:bolder;
+}
+.blue{
+    color: #4e4ec2;
+    font-weight:bolder;
+}
+

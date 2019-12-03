@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Attend chat</title>
+    <link rel="stylesheet" href="chatapp.css">
+</head>
+
+<body>
+    <div class="attend_chat">
+        <h1>Attend chat</h1>
+    </div>
+
+    <div class="Attention">
+        <div class="at">
+            <h2>How to use...</h2>
+            <p>名前を入力し<span>Enter</span>を押すと、<span>出席</span>の状態で保存されます。
+                <br>送信した人の出席情報は、name をクリックするとStatus boxに表示されます。
+                <br>Status boxにて Statusをクリックすると<span>欠席</span>に変更できます。
+                <br>Saveボタンで上書き保存ができます。更新すると、Statusに色が反映されます。
+            </p>
+        </div>
+    </div>
+
+    <!-- 入力&出力場所を作成しよう -->
+    <div>
+
+        <!-- 名前 -->
+        <div class="name">
+            <p>Name</p>
+            <input style="border:1px #6785e1 solid; width: 800px;height: 30px;" type="text" id="name"
+                placeholder="Name,Enter">
+            <!-- <button id="send">send</button> -->
+        </div>
+
+        <!-- 本文 -->
+        <div id=status>
+            <!-- <textarea name="" id="status" cols="80%" rows="5"></textarea> -->
+        </div>
+
+        <!-- 表示 -->
+        <div class="Status_box">
+            <p>Status box</p>
+            <p style="width: 800px;height: 140px;background-color: rgb(255, 255, 255);border:1px solid #6785e1;"
+                id=status_box></p>
+            <button id="save">save</button>
+        </div>
+
+        <div class="member">
+            <h2>Members</h2>
+            <hr size="2" color="#6785e1">
+            <div id="output"></div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- 以下にfirebaseのコードを貼り付けよう -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="firebase.js"></script>
+
+    <script>
+        // 日時を取得する関数
+        function ymd() {
+            var date = new Date();
+            return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+        }
+        var target_id = null;
+
+
+        // 送信ボタンクリックでメッセージ送信
+        // $('#send').on('click', function () {
+        //     memberPostRef.push({
+        //         name: $('#name').val(),
+        //         status: '出席',
+        //         // status: $('#status').val(),
+        //         time: ymd()
+        //     });
+
+        //     // $('#status').val('');
+        // });
+
+        //メッセージが追加されたら自動的に表示
+        memberPostRef.on('child_added', function (data) {
+            var k = data.key;
+            var v = data.val();
+            // console.log(k);
+            // console.log(v);
+            // console.log(v.name);
+            // console.log(v.time);
+            // console.log(v.status);
+
+
+            var str = '';
+            str += '<div class="' + k + '">';
+            str += '<div id="' + k + '" class="member_box">name:' + v.name + '</div>';
+            if (v.status == '欠席') {
+                str += '<p class="status_1">status:<span class="red">' + v.status + '<span></p>';
+
+            } else if (v.status == '出席') {
+                str += '<p class="status_1">status:<span class="blue">' + v.status + '<span></p>';
+            }
+            str += '<p class="date_1">time:' + v.time + '</p>';
+            str += '</div>';
+
+            $('#output').prepend(str);
+
+        });
+
+        $('#name').on('keydown', function (e) {
+            if (e.keyCode == 13) {
+                memberPostRef.push({
+                    name: $('#name').val(),
+                    status: '出席',
+                    // status: $('#status').val(),
+                    time: ymd()
+                });
+
+                $('#name').val('');
+
+            };
+        });
+
+        $('#output').on('click', '.member_box', function () {
+            var id = $(this).attr('id');
+            console.log(id);
+            target_id = id;
+
+            var get = $(this).parent('div');
+            $('#status_box').append(get);
+
+            $('#status_box').on('click', '.status_1', function () {
+                console.log('status');
+                $(this, '.status_1').html('<p>status:欠席</p>');
+                $('.date_1').html('time:' + ymd());
+            });
+        });
+
+        $('#save').on('click', function () {
+            console.log("test");
+            console.log(this);
+
+            console.log("test");
+            var getName = $('#status_box').find('.member_box').text();
+            var postName = getName.split('name:').join('');
+            writeNewPost("name", "status", "time")
+            // 上書き保存
+            function writeNewPost(name, status, time) {
+                // A post entry.
+                var postData = {
+                    name: postName,
+                    status: "欠席",
+                    time: ymd(),
+                };
+                //return firebase.database().ref('users/' + "1234").set(postData);
+                // Get a key for a new Post.
+                console.log(postData.name);
+                var postKey = target_id;
+                // Write the new post's data simultaneously in the posts list and the user's post list.
+                var updates = {};
+                updates['/member/' + postKey] = postData;
+
+                return firebase.database().ref().update(updates);
+
+            }
+            // alert('上書き保存します');
+            var get_div = $('.member_box').parent('div');
+            $('#output').append(get_div);
+            // $('#status_box').val('');
+
+        });
+
+    </script>
+
+</body>
+
+</html>
